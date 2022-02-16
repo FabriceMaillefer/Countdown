@@ -1,0 +1,206 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #ffd54f;
+    background-image: url("../background.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.background {
+    background-image: url("../background.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    /* Add the blur effect */
+    filter: blur(3px) brightness(1.3);
+    -webkit-filter: blur(4px) brightness(1.3);
+    position: fixed;
+    z-index: -1;
+}
+
+.main-container {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+a {
+    all: unset;
+    text-decoration: underline solid black;
+}
+
+.main-container-trigger {
+    animation: example 1s linear;
+    animation-delay: 250ms;
+    animation-iteration-count: 2;
+}
+
+.remote-link{
+    align-self:flex-start;
+}
+
+.container {
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.full-width {
+    width:100%;
+}
+
+@keyframes example {
+    0% {
+        background-color: #ffd54f;
+    }
+    20% {
+        background-color: #8e7522;
+    }
+    100% {
+        background-color: #ffd54f;
+    }
+}
+
+h1 {
+    font-weight: normal;
+    letter-spacing: .125rem;
+    text-transform: uppercase;
+}
+
+li {
+    display: inline-block;
+    font-size: 1.5em;
+    list-style-type: none;
+    padding: 1em;
+    text-transform: uppercase;
+}
+
+    li span {
+        display: block;
+        font-size: 4.5rem;
+    }
+
+.message {
+    text-transform: none;
+    font-size: 4.5rem;
+    white-space: pre-wrap;
+}
+
+/*@media all and (max-width: 768px) {
+    h1 {
+        font-size: calc(1.5rem * var(--smaller));
+    }
+
+    li {
+        font-size: calc(1.125rem * var(--smaller));
+    }
+
+        li span {
+            font-size: calc(3.375rem * var(--smaller));
+        }
+}*/
+
+progress[value] {
+    /* Reset the default appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Get rid of default border in Firefox. */
+    border: none;
+    /* Dimensions */
+    width: 50vw;
+    height: 20px;
+    background: linear-gradient(90deg, rgba(0,255,25,0.5) 0%, rgba(160,255,0,0.5) 67%, rgba(255,166,0,0.5) 90%, rgba(255,0,0,0.5) 100%);
+    border-radius: 2px;
+}
+
+    progress[value]::-webkit-progress-bar {
+        background: linear-gradient(90deg, rgba(0,255,25,0.5) 0%, rgba(160,255,0,0.5) 67%, rgba(255,166,0,0.5) 90%, rgba(255,0,0,0.5) 100%);
+        border-radius: 2px;
+    }
+
+    progress[value]::-webkit-progress-value {
+        background: rgba(0,255,25,1);
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    }
+
+    progress[value]::-moz-progress-bar {
+        background: rgba(0,255,25,1);
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    }
+
+
+.control-grid {
+    width:100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap:16px;
+    row-gap:16px;
+}
+
+.btn {
+    padding: 0;
+    overflow: hidden;
+    border-width: 0;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: #555555;
+    color: #ecf0f1;
+    transition: background-color .3s;
+}
+
+.btn:hover, .btn:focus {
+    background-color: #333333;
+}
+
+.btn span {
+    display: block;
+    padding: 12px 24px;
+}
+
+.btn.green {
+    background-color: #2ecc71;
+}
+.btn.green:hover, .btn.green:focus {
+    background-color: #27ae60;
+}
+
+.btn.orange {
+    background-color: #e67e22;
+}
+
+.btn.orange:hover, .btn.orange:focus {
+    background-color: #d35400;
+}
+
+.btn.red {
+    background-color: #e74c3c;
+}
+
+.btn.red:hover, .btn.red:focus {
+    background-color: #c0392b;
+}

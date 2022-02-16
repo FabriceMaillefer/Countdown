@@ -1,0 +1,83 @@
+﻿@page "/"
+@implements IDisposable
+@inject Countdown.Model.DownTimer DownTimer;
+@inject Countdown.Model.Information Information;
+
+<div class="main-container @(Information.ShowMessage ? "main-container-trigger":"")" @onclick="@(() => {ShowLinks = !ShowLinks;})">
+    @if (ShowLinks)
+    {
+        <div class="remote-link">
+            <a href="/remote">Accès à distance</a>
+
+            <a href="/control">Contrôle</a>
+        </div>
+    }
+
+
+    <div class="container">
+
+    @if (Information.ShowCountdown)
+    {
+      <h1 class="headline">Temps restant</h1>
+      <div class="countdown">
+        <ul>
+            @if(@DownTimer.RemainingTime.Hours > 0)
+            {
+                <li><span class="hours">@(DownTimer.RemainingTime.Hours)</span>@(DownTimer.RemainingTime.Hours > 1 ? "Heures" : "Heure")</li>
+            }
+      
+          <li><span class="minutes">@($"{DownTimer.RemainingTime.Minutes:00}")</span>@(DownTimer.RemainingTime.Minutes > 1 ? "Minutes" : "Minute")</li>
+          <li><span class="seconds">@($"{DownTimer.RemainingTime.Seconds:00}")</span>@(DownTimer.RemainingTime.Seconds > 1 ? "Secondes" : "Seconde")</li>
+        </ul>
+      </div>
+      <progress
+      value="@DownTimer.ElapsedTime.TotalMilliseconds"
+      max="@DownTimer.Duration.TotalMilliseconds" />
+        <div>
+                <h1 class="headline" style="display:flex; justify-content:space-between; width:100%">         
+                <small>@(DownTimer.Elapsed ? "" : $"{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}")</small>
+                @(DateTime.Now.ToShortTimeString()) 
+                <small>@(DownTimer.Elapsed ? "" : $"{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}")</small>
+            </h1>
+        </div>  
+    }
+
+    @if (Information.ShowClock)
+    {
+        <div>
+              <h1 class="headline" style="font-size:25vw;">         
+                @(DateTime.Now.ToShortTimeString()) 
+            </h1>
+        </div>  
+     }
+
+    @if (!string.IsNullOrEmpty(Information.Message) && Information.ShowMessage)
+    {
+        <div class="message">
+            @Information.Message
+        </div>
+    }
+    </div>
+</div>
+
+
+
+
+@code{
+    private bool ShowLinks = false;
+
+    private System.Threading.Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        _timer = new System.Threading.Timer(async _ =>  // async void
+        {
+            await InvokeAsync(StateHasChanged);
+        }, null, 0, 500);
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}
