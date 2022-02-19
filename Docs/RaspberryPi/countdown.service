@@ -1,0 +1,11 @@
+[Unit]
+Description=Web-based remote controlled countdown
+After=network.target
+
+[Service]
+ExecStart=/home/pi/Countdown/Docs/Raspberry/run.sh
+WorkingDirectory=/home/pi/Countdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
