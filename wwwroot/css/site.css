@@ -107,19 +107,6 @@ li {
     white-space: pre-wrap;
 }
 
-/*@media all and (max-width: 768px) {
-    h1 {
-        font-size: calc(1.5rem * var(--smaller));
-    }
-
-    li {
-        font-size: calc(1.125rem * var(--smaller));
-    }
-
-        li span {
-            font-size: calc(3.375rem * var(--smaller));
-        }
-}*/
 
 progress[value] {
     /* Reset the default appearance */
@@ -203,4 +190,54 @@ progress[value] {
 
 .btn.red:hover, .btn.red:focus {
     background-color: #c0392b;
+}
+
+@media all and (max-width: 992px) {
+
+    body * {
+        font-size: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    li {
+        font-size: 1.75rem;
+    }
+
+        li span {
+            font-size: 4rem;
+        }
+
+    .btn span {
+        display: block;
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+}
+
+@media all and (max-width: 600px) {
+
+    body * {
+        font-size: 8px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    li {
+        font-size: 1.125rem;
+    }
+
+        li span {
+            font-size: 3.375rem;
+        }
+
+    .btn span {
+        display: block;
+        padding: 6px 12px;
+        font-size: 8px;
+    }
 }

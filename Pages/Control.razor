@@ -6,7 +6,7 @@
 <div class="main-container">
     <a href="/">Home</a>
     <div class="container full-width">
-        <h1 class="headline">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] ->") @(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" ->[{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
+        <h1 class="headline">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") @(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
 
         <div class="control-grid">
             <div>
@@ -75,55 +75,53 @@
             <!-- Third row-->
             <div>
                 <h4>Durées</h4>
+                <div style="display:grid; grid-template-columns:repeat(2, auto); row-gap:2px; column-gap: 2px;">
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(5); DownTimer.Restart();})">
+                        <span>5 min</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(10); DownTimer.Restart();})">
+                        <span>10 min</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(15); DownTimer.Restart();})">
+                        <span>15 min</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(30); DownTimer.Restart();})">
+                        <span>30 min</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(45); DownTimer.Restart();})">
+                        <span>45 min</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(45); DownTimer.Restart();})">
+                        <span>60 min</span>
+                    </Button>
+                </div>
             </div>
             <div>
-               <h4>Heure de fin</h4>
+                <h4>Heure de fin</h4>
+                <div style="display:grid; grid-template-columns:repeat(2, auto); row-gap:2px; column-gap: 2px;">
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.ToShortTimeString())</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(15) - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.AddMinutes(15).ToShortTimeString())</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(30) - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.AddMinutes(30).ToShortTimeString())</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(45) - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.AddMinutes(45).ToShortTimeString())</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(60) - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.AddMinutes(60).ToShortTimeString())</span>
+                    </Button>
+                    <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(75) - DateTime.Now; DownTimer.Restart();})">
+                        <span>@(NextRoundHour.AddMinutes(75).ToShortTimeString())</span>
+                    </Button>
+                </div>
             </div>
+             
             <div>
                 <h4>Message</h4>
-            </div>
-            <!-- Third row-->
-            <div style="display:grid; grid-template-columns:repeat(2, auto); row-gap:2px; column-gap: 2px;">
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(5); DownTimer.Restart();})">
-                    <span>5 min</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(10); DownTimer.Restart();})">
-                    <span>10 min</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(15); DownTimer.Restart();})">
-                    <span>15 min</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(30); DownTimer.Restart();})">
-                    <span>30 min</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(45); DownTimer.Restart();})">
-                    <span>45 min</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = TimeSpan.FromMinutes(45); DownTimer.Restart();})">
-                    <span>60 min</span>
-                </Button>
-            </div>
-             <div style="display:grid; grid-template-columns:repeat(2, auto); row-gap:2px; column-gap: 2px;">
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.ToShortTimeString())</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(15) - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.AddMinutes(15).ToShortTimeString())</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(30) - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.AddMinutes(30).ToShortTimeString())</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(45) - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.AddMinutes(45).ToShortTimeString())</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(60) - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.AddMinutes(60).ToShortTimeString())</span>
-                </Button>
-                <Button  class="btn" @onclick="(() => {DownTimer.Duration = NextRoundHour.AddMinutes(75) - DateTime.Now; DownTimer.Restart();})">
-                    <span>@(NextRoundHour.AddMinutes(75).ToShortTimeString())</span>
-                </Button>
-            </div>
-            <div>
                 <textarea @bind-value="Information.Message" @bind-value:event="oninput" style="width:100%; height:100%;">
                 </textarea>
             </div>
