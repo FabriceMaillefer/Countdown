@@ -31,8 +31,8 @@
         </ul>
       </div>
       <progress
-      value="@DownTimer.ElapsedTime.TotalMilliseconds"
-      max="@DownTimer.Duration.TotalMilliseconds" />
+          value="@(Math.Round(DownTimer.ElapsedTime.TotalSeconds / DownTimer.Duration.TotalSeconds * 100))"
+          max="100" />
         <div>
                 <h1 class="headline" style="display:flex; justify-content:space-between; width:100%">         
                 <small>@(DownTimer.Elapsed ? "" : $"{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}")</small>
