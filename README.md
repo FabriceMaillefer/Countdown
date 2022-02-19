@@ -32,6 +32,8 @@ https://dotnet.microsoft.com/download/dotnet/6.0
 
 ## Setup on a Raspberry Pi
 
+### Service
+
 Install .NET 6 SDK
 ``` bash 
 cd ~
@@ -67,7 +69,7 @@ chmod +x Docs/RaspberryPi/run.sh
 sudo systemctl enable ~/Countdown/Docs/RaspberryPi/countdown.service 
 ```
 
-### Tips:
+#### Tips:
 
 If you modify the  `countdown.service` file after registration, use `sudo systemctl daemon-reload` to reload the service.
 
@@ -78,6 +80,29 @@ sudo service countdown status
 Check service output:
 ```bash
 sudo journalctl -u countdown -e
+```
+
+### Setup Presenter view at startup
+
+1. copy the `autostart`
+```
+cp /etc/xdg/lxsession/LXDE-pi/autostart ~/.config/lxsession/LXDE-pi/
+```
+2. open the `autostart` with *nano*
+```
+nano ~/.config/lxsession/LXDE-pi/autostart
+```
+3. Then edit the `autostart`
+```
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+
+@xset s off
+@xset -dpms
+@xset s noblank
+
+@unclutter -idle 1 -root
+@/usr/bin/chromium-browser --app=http://localhost:5000 --kiosk --noerrdialogs --disable-session-crashed-bubble --disable-infobars
 ```
 
 ## License
