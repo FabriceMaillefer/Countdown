@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/home/pi/Countdown/Docs/RaspberryPi/run.sh
-WorkingDirectory=/home/pi/Countdown
+WorkingDirectory=/home/pi/Countdown/Docs/RaspberryPi
 Restart=always
 
 [Install]
