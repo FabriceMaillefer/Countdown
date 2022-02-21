@@ -4,9 +4,11 @@
 @inject Countdown.Model.Information Information;
 
 <div class="main-container">
-    <a href="/">Home</a>
+    <h1 class="headline full-width">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") &#128339;@(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
+
+    <a href="/">Vue présentateur</a>
+
     <div class="container full-width">
-        <h1 class="headline">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") @(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
 
         <div class="control-grid">
             <div>
@@ -31,7 +33,11 @@
                     <Button  class="btn orange" @onclick="(() => {DownTimer.Duration = DownTimer.Duration.Add(TimeSpan.FromMinutes(1));})">
                         <span>+1 min</span>
                     </Button>
-                    <Button  class="btn orange" @onclick="(() => {DownTimer.Duration = DownTimer.Duration.Add(TimeSpan.FromMinutes(-1));})">
+                    <Button disabled="@(DownTimer.Duration <= TimeSpan.Zero)" class="btn orange" @onclick="(() => {
+                            DownTimer.Duration = DownTimer.Duration.Add(TimeSpan.FromMinutes(-1));
+                            if(DownTimer.Duration <= TimeSpan.Zero)
+                                DownTimer.Duration = TimeSpan.Zero;
+                            })">
                         <span>-1 min</span>
                     </Button>
                 </div>
@@ -39,14 +45,28 @@
             <div>
                 <div>
                     <Button  class="btn orange" @onclick="(() => {DownTimer.Restart();})">
-                        <span>Restart</span>
+                        <span>&#x21ba;</span>
                     </Button>
                     <Button  class="btn red" @onclick="(() => {DownTimer.Stop();})">
-                        <span>Stop</span>
+                        <span>&#x23f8;</span>
                     </Button>
                     <Button  class="btn green" @onclick="(() => {DownTimer.Start();})">
-                        <span>Start</span>
+                        <span>&#x25b6;</span>
                     </Button>
+                </div>
+                <div>
+                    @if (DownTimer.IsRunning)
+                    {
+                        <span>Compte à rebours actif</span>
+                    }
+                    else if (DownTimer.Elapsed)
+                    {
+                        <span>Compte à rebours terminé</span>
+                    }
+                    else
+                    {
+                        <span>Compte à rebours en pause</span>
+                    }
                 </div>
             </div>
             <div style="display:grid; grid-template-columns:repeat(2, auto); row-gap:2px; text-align: left;">
@@ -55,7 +75,7 @@
                     <label for="Information-ShowClock">Horloge</label>
                 </div>
                 <Button class="btn" @onclick="(() => {Information.ShowClock = true; Information.ShowCountdown = false; Information.ShowMessage = false;})">
-                    <span>Hologe seule</span>
+                    <span>Horloge seule</span>
                 </Button>
                 <div>
                     <input id="Information-ShowCountdown" type="checkbox" @bind="@Information.ShowCountdown" />

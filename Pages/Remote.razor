@@ -5,10 +5,10 @@
 @page "/Remote"
 
 <div class="main-container">
-    <a href="/">Home</a>
+    <a href="/">Vue présentateur</a>
 
     <div class="container">
-        <h4>Scan le QR Code pour accéder à l'application</h4>
+        <h4>Scanne le QR Code pour accéder à l'application</h4>
         <p>ou alors va sur <a href="@RemoteUrl">@RemoteUrl</a></p>
         <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(_qrCodeByteArray))" height="300" width="300"/>  
     </div>

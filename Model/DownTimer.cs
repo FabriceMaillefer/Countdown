@@ -44,6 +44,8 @@
             get { return ElapsedTime >= _duration; }
         }
 
+        public bool IsRunning => _running;
+
         #endregion Properties
 
         #region Methods
