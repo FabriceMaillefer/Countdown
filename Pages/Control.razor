@@ -4,7 +4,7 @@
 @inject Countdown.Model.Information Information;
 
 <div class="main-container">
-    <h1 class="headline full-width">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") &#128339;@(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
+    <h1 class="headline full-width">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") @(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
 
     <a href="/">Vue présentateur</a>
 

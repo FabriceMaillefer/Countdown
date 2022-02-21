@@ -36,7 +36,7 @@
         <div>
                 <h1 class="headline" style="display:flex; justify-content:space-between; width:100%">         
                 <small>@(DownTimer.Elapsed ? "" : $"{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}")</small>
-                &#128339;@(DateTime.Now.ToShortTimeString()) 
+                @(DateTime.Now.ToShortTimeString()) 
                 <small>@(DownTimer.Elapsed ? "" : $"{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}")</small>
             </h1>
         </div>  
