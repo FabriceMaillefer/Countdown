@@ -1,8 +1,11 @@
 ﻿@using System.Net
 @using System.Net.Sockets
+@using Countdown.Model
 @using QRCoder
 @using System.IO
 @page "/Remote"
+
+@inject Information Information;
 
 <div class="main-container">
     <a href="/">Vue présentateur</a>
@@ -14,33 +17,17 @@
     </div>
 </div>
 @code {
-    protected string _localIpAddress;
     protected byte[] _qrCodeByteArray;
 
-    protected string RemoteUrl => $"http://{_localIpAddress}:5000";
+    protected string RemoteUrl => Information.ApplicationUrl;
 
     protected override void OnInitialized()
     {
-        _localIpAddress = GetLocalIPAddress();
-
         QRCodeGenerator qrGenerator = new QRCodeGenerator();
         QRCodeData qrCodeData = qrGenerator.CreateQrCode(RemoteUrl, QRCodeGenerator.ECCLevel.M);
         QRCoder.PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
         _qrCodeByteArray = qrCode.GetGraphic(20);
 
         base.OnInitialized();
-    }
-
-    public static string GetLocalIPAddress()
-    {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork && !ip.ToString().StartsWith("127"))
-            {
-                return ip.ToString();
-            }
-        }
-        return "localhost";
     }
 }
