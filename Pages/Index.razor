@@ -1,5 +1,6 @@
 ﻿@page "/"
 @implements IDisposable
+@inject IJSRuntime JS
 @inject Countdown.Model.DownTimer DownTimer;
 @inject Countdown.Model.Information Information;
 
@@ -8,8 +9,17 @@
     {
         <div class="remote-link">
             <a href="/remote">Accès à distance</a>
-
+            &nbsp;
             <a href="/control">Contrôle</a>
+            &nbsp;
+            @if(IsFullScreen)
+            {
+                <a href="#" class="visible-in-fullscreen" @onclick="CloseFullscreen">Quitter le plein écran</a>
+            }
+            else
+            {
+                <a href="#" @onclick="OpenFullScreen">Plein écran</a>
+            }
         </div>
     }
 
@@ -65,7 +75,7 @@
 
 @code{
     private bool ShowLinks = false;
-
+    private bool IsFullScreen = false;
     private System.Threading.Timer? _timer;
 
     protected override void OnInitialized()
@@ -76,8 +86,31 @@
         }, null, 0, 500);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsFullScreen = await JS.InvokeAsync<bool>("isFullscreen");
+        }
+        await  base.OnAfterRenderAsync(firstRender);
+    }
+
     public void Dispose()
     {
         _timer?.Dispose();
+    }
+
+    private async Task OpenFullScreen()
+    {
+        IsFullScreen = await JS.InvokeAsync<bool>("openFullscreen");
+    }
+
+    private async Task CloseFullscreen()
+    {
+        IsFullScreen = ! (await JS.InvokeAsync<bool>("closeFullscreen"));
+    }
+
+    private async Task<bool> IsFullScreenAsync(){
+        return await JS.InvokeAsync<bool>("isFullscreen");
     }
 }
