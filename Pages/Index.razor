@@ -3,14 +3,13 @@
 @inject IJSRuntime JS
 @inject Countdown.Model.DownTimer DownTimer;
 @inject Countdown.Model.Information Information;
+@inject NavigationManager NavigationManager;
 
-<div class="main-container @(Information.ShowMessage ? "main-container-trigger":"")" @onclick="@(() => {ShowLinks = !ShowLinks;})">
+<div class="main-container @((Information.AnimateBackground || DownTimer.Elapsed) ? "main-container-trigger":"")" @onclick="@(() => {ShowLinks = !ShowLinks;})">
     @if (ShowLinks)
     {
         <div class="remote-link">
             <a href="/remote">Accès à distance</a>
-            &nbsp;
-            <a href="/control">Contrôle</a>
             &nbsp;
             @if(IsFullScreen)
             {
@@ -22,7 +21,6 @@
             }
         </div>
     }
-
 
     <div class="container">
 
@@ -67,11 +65,17 @@
             @Information.Message
         </div>
     }
+
+    @if (ShowLinks)
+    {
+        <div>
+            <Button class="btn orange" @onclick="@(() => NavigationManager.NavigateTo("/secure-access", false))">
+                <span>Désamorcer</span>
+            </Button>
+        </div> 
+    }
     </div>
 </div>
-
-
-
 
 @code{
     private bool ShowLinks = false;
@@ -84,6 +88,8 @@
         {
             await InvokeAsync(StateHasChanged);
         }, null, 0, 500);
+
+        base.OnInitialized();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

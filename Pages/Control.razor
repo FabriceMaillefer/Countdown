@@ -6,7 +6,7 @@
 <div class="main-container">
     <h1 class="headline full-width">@(DownTimer.Elapsed ? "" : $"[{DateTime.Now.Add(-1*DownTimer.ElapsedTime).ToShortTimeString()}] →") @(DateTime.Now.ToShortTimeString()) @(DownTimer.Elapsed ? "" : $" → [{DateTime.Now.Add(DownTimer.RemainingTime).ToShortTimeString()}]")</h1>
 
-    <a href="/">Vue présentateur</a>
+    <a href="/">Compte à rebours</a>
 
     <div class="container full-width">
 
@@ -74,14 +74,14 @@
                     <input id="Information-ShowClock" type="checkbox" @bind="@Information.ShowClock" />
                     <label for="Information-ShowClock">Horloge</label>
                 </div>
-                <Button class="btn" @onclick="(() => {Information.ShowClock = true; Information.ShowCountdown = false; Information.ShowMessage = false;})">
+                <Button class="btn" @onclick="(() => {Information.ShowClock = true; Information.ShowCountdown = false; Information.AnimateBackground = false; Information.ShowMessage = false;})">
                     <span>Horloge seule</span>
                 </Button>
                 <div>
                     <input id="Information-ShowCountdown" type="checkbox" @bind="@Information.ShowCountdown" />
                     <label for="Information-ShowCountdown">Compte à rebours</label>
                 </div>
-                <Button class="btn" @onclick="(() => {Information.ShowClock = false; Information.ShowCountdown = true; Information.ShowMessage = false;})">
+                <Button class="btn" @onclick="(() => {Information.ShowClock = false; Information.ShowCountdown = true; Information.AnimateBackground = false; Information.ShowMessage = false;})">
                     <span>Compte à rebours seul</span>
                 </Button>
                 <div>
@@ -90,6 +90,13 @@
                 </div>
                 <Button  class="btn" @onclick="(() => {Information.ShowClock = false; Information.ShowCountdown = false; Information.ShowMessage = true;})">
                     <span>Message seul</span>
+                </Button>
+                <div>
+                    <input id="Information-AnimateBackground" type="checkbox" @bind="@Information.AnimateBackground" />
+                    <label for="Information-AnimateBackground">Animation du fond</label>
+                </div>
+                <Button  class="btn" @onclick="(() => {Information.AnimateBackground = !Information.AnimateBackground;})">
+                    <span>Anime le fond</span>
                 </Button>
             </div>
             <!-- Third row-->
@@ -144,6 +151,16 @@
                 <h4>Message</h4>
                 <textarea @bind-value="Information.Message" @bind-value:event="oninput" style="width:100%; height:100%;">
                 </textarea>
+            </div>
+
+            <div>
+                <h4>Mot de passe</h4>
+                <input @bind-value="Information.Password" type="text"></input>
+            </div>
+
+            <div>
+                <h4>Nombre de tentative</h4>
+                <input @bind-value="Information.TentativeLeft" type="number" min="0"></input>
             </div>
         </div>
     </div>

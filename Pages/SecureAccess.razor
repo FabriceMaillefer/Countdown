@@ -1,0 +1,149 @@
+﻿@page "/secure-access"
+
+@implements IDisposable
+
+@inject Countdown.Model.DownTimer DownTimer;
+@inject Countdown.Model.Information Information;
+
+<div class="main-container  @((Information.AnimateBackground || DownTimer.Elapsed) ? "main-container-trigger":"")">
+
+	<div style="margin-bottom:2em">
+		<a href="/">Compte à rebours</a>
+		<div>
+			@if (DownTimer.IsRunning)
+			{
+				<span>La bombe fonctionne correctement. Ne pas la toucher sous risque d'explosion !</span>
+			}
+			else
+			{
+				<span>La bombe est arrétée. Que se passe-t-il ?</span>
+			}
+
+			@if (Information.TentativeLeft <= 0)
+			{
+				<div style="margin-bottom:2em; margin-top:2em;">
+					<h1>GAME OVER !! </h1>
+					<div>
+						La bombe ne peut plus être arrétée !
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+
+	<div>
+		@if (_step == 0)
+		{
+			<div style="margin-bottom:1em">
+				<input type="text" @bind-value="_password" style="font-size:2em" />
+			</div>
+			<div>
+				<Button class="btn orange" @onclick="@(() => _step = 1)">
+					<span>Désamorcer</span>
+				</Button>
+			</div>
+		}
+		else if (_step == 1)
+		{
+			<h3>Est-tu sûr que tu veux essayer le code @(_password)?</h3>
+			<div>Tentative(s) restante : @Information.TentativeLeft</div>
+
+			<div style="margin-bottom:1em">
+				<Button class="btn green" @onclick="@(() => {_step = 0; _password = string.Empty;})">
+					<span>Abandonner</span>
+				</Button>
+
+				@if (Information.TentativeLeft > 0)
+				{
+					<Button class="btn red" style="margin-left:2em"  @onclick="@(() => verifyPassword())">
+						<span>Essayer ce code</span>
+					</Button>
+				}
+			</div>
+
+			
+		}
+		else if (_step == 2)
+		{
+			<h3>Mauvais code ...</h3>
+			<div>Tentative(s) restante : @Information.TentativeLeft</div>
+			<div style="margin-bottom:1em">
+				<Button class="btn orange" @onclick="@(() => _step = 0)">
+					<span>Réessayer</span>
+				</Button>
+			</div>
+		}
+		else if (_step == 3)
+		{
+			<h3>Contrôle de la bombe dévérouillé</h3>
+
+			<div style="margin-bottom:1em;">
+				<Button class="btn red" style="margin-right:2em" @onclick="@(() => stopperLaBombe())">
+					<span>Arreter la bombe !</span>
+				</Button>
+
+				<Button class="btn green" @onclick="@(() => randomPassword())">
+					<span>Mettre un mot de passe aléaloire</span>
+				</Button>
+			</div>
+		}
+	</div>
+</div>
+
+@code {
+
+	private string _password = string.Empty;
+	private System.Threading.Timer? _timer;
+	private int _step = 0;
+
+	void verifyPassword()
+	{
+		if (_password == Information.Password)
+		{
+			_step = 3;
+		}
+		else
+		{
+			Information.TentativeLeft--;
+			_step = 2;
+		}
+	}
+
+	void stopperLaBombe()
+	{
+		DownTimer.Stop();
+		Information.ShowCountdown = false;
+		Information.Message = "Bombe désamorçée !";
+		Information.ShowMessage = true;
+		Information.AnimateBackground = true;
+	}
+
+	void randomPassword()
+	{
+		Information.Password = Guid.NewGuid().ToString().Replace("-", "");
+		DownTimer.Restart();
+
+		_step = 0;
+		_password = string.Empty;
+
+		Information.ShowCountdown = true;
+		Information.Message = "Bombe redémarée !";
+		Information.ShowMessage = true;
+		Information.AnimateBackground = true;
+	}
+
+	protected override void OnInitialized()
+	{
+		_timer = new System.Threading.Timer(async _ =>  // async void
+		{
+			await InvokeAsync(StateHasChanged);
+		}, null, 0, 500);
+
+		base.OnInitialized();
+	}
+
+	public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}

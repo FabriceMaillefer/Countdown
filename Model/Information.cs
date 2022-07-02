@@ -10,6 +10,12 @@
 
         public bool ShowClock { get; set; } = true;
 
+        public bool AnimateBackground { get; set; } = false;
+
         public string ApplicationUrl { get; set; } = string.Empty;
+
+        public string Password { get; set; } = string.Empty;
+        public int TentativeLeft { get; set; } = 5;
+
     }
 }
