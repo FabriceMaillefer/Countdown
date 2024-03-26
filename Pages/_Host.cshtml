@@ -13,7 +13,7 @@
 	<title>Compte à rebours</title>
 	<base href="~/" />
 
-	<link href="css/site.css" rel="stylesheet" />
+	<link href="css/site.css?v=2024" rel="stylesheet" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -23,7 +23,23 @@
 	<div class="background">
 	</div>
 	<component type="typeof(App)" render-mode="ServerPrerendered" />
-	<script src="_framework/blazor.server.js"></script>
+	<script src="_framework/blazor.server.js" autostart="false"></script>
+	<script type="text/javascript">
+		Blazor.start({
+			reconnectionOptions: {
+				maxRetries: Infinity,
+				retryIntervalMilliseconds: 100
+			},
+			reconnectionHandler: {
+				onConnectionDown: (options, error) => {
+					Blazor.defaultReconnectionHandler.onConnectionDown(options, error);
+					Blazor.defaultReconnectionHandler._reconnectionDisplay.rejected = function () {
+						window.location.reload();
+					}
+				}
+			}
+		});
+	</script>
 </body>
 
 <script>
