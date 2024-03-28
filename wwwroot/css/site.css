@@ -69,7 +69,24 @@ a {
     animation-iteration-count: 2;
 }
 
-.remote-link{
+.hours-dot {
+    animation: hours-dot 2s linear infinite;
+}
+
+@keyframes hours-dot {
+    0% {
+        opacity: 0;
+    }
+    15%{
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 .container {
